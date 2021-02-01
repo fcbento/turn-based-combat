@@ -79,7 +79,9 @@ export class CharactersOptionComponent implements OnInit {
         ready: false,
         fighter: 1,
         hp: 200,
-        strength: 100,
+        strength: 0,
+        minAtacck: 22,
+        maxAtacck: 90,
         skills: [
           {
             name: 'Attack'
@@ -94,7 +96,9 @@ export class CharactersOptionComponent implements OnInit {
         ready: false,
         fighter: 2,
         hp: 500,
-        strength: 100,
+        strength: 0,
+        minAtacck: 22,
+        maxAtacck: 90,
         skills: [
           {
             name: 'Attack'
@@ -109,7 +113,9 @@ export class CharactersOptionComponent implements OnInit {
         ready: false,
         fighter: 3,
         hp: 500,
-        strength: 500,
+        strength: 0,
+        minAtacck: 22,
+        maxAtacck: 90,
         skills: [
           {
             name: 'Attack',
@@ -136,7 +142,9 @@ export class CharactersOptionComponent implements OnInit {
         ready: false,
         fighter: 1,
         hp: 500,
-        strength: 100,
+        strength: 0,
+        minAtacck: 30,
+        maxAtacck: 90,
         skills: [
           {
             name: 'Attack'

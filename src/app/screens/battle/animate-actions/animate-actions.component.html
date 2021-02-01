@@ -6,20 +6,23 @@
         </div>
 
         <p class="start-xs health-bar" id="health-1" *ngIf="player.player === 1">{{player.hp}}</p>
+ 
         <p class="start-xs health-bar" id="health-2" *ngIf="player.player === 2">{{player.hp}}</p>
 
-        <img [ngClass]="player.player == 1 ? 'char-portrait-1' : 'char-portrait-2'"
-            src="assets/portraits/{{player.portrait}}.png" id="{{img}}">
+        <h1 class="center-xs" id="damage-1" *ngIf="player.player === 1"></h1>
+        <h1 class="center-xs" id="damage-2" *ngIf="player.player === 2"></h1>
 
+        <img [ngClass]="player.player == 1 ? 'char-portrait-1' : 'char-portrait-2'" src="assets/portraits/{{player.portrait}}.png" id="{{img}}">
         <br>
+      
+      
       
         
         <div *ngFor="let skill of player.skills; let i = index" id="btn-1">
-           
-            <button (click)="attackBtn(player.player)" *ngIf="player.player === 1 && i == 0" > {{skill.name}}</button>
-            <button (click)="attackBtn(player.player)" *ngIf="player.player === 1 && i == 1" > {{skill.name}}</button>
-            <button (click)="attackBtn(player.player)" *ngIf="player.player === 1 && i == 2" > {{skill.name}}</button>
-            <button (click)="attackBtn(player.player)" *ngIf="player.player === 1 && i == 3" > {{skill.name}}</button>
+           <div *ngIf="hideBtn">
+             <button (click)="attackBtn(player.player, i + 1)" *ngIf="player.player === 1"> {{skill.name}}</button>
+           </div>
+
         </div>
         <!-- <button id="btn-2" (click)="attackBtn(player.player)" *ngIf="player.player === 2">Attack</button> -->
     </div>

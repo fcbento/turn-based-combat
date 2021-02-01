@@ -8,5 +8,7 @@ export class Character {
 
     hp: number;
     strength: number;
+    minAtacck: number;
+    maxAtacck: number;
     skills: Array<any>;
 }

@@ -1,5 +1,5 @@
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import { AfterViewChecked, Component, Input, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, HostListener, Input, OnInit } from '@angular/core';
 import { Character } from 'src/app/models/character.model';
 import { AudioService } from 'src/app/shared/audio.service';
 
@@ -22,7 +22,8 @@ export class AnimateActionsComponent implements OnInit {
   damage1: number;
   damage2: number;
   hideBtn = true;
-  hideBtn2 = true;
+  realDamage1;
+  realDamage2;
 
   constructor(private audio: AudioService) { }
 
@@ -129,14 +130,16 @@ export class AnimateActionsComponent implements OnInit {
     this.attackStarted = false;
   }
 
-  attackBtn(player) {
+  attackBtn(player, skill) {
+
+    this.checkSkill(skill);
 
     //action init
     let start = new Date().getTime();
 
     //start walking
     this.walking();
-
+    this.hideBtn = false;
     //stop walking
     setTimeout(() => {
       this.checkStop(start, 1000)
@@ -179,13 +182,82 @@ export class AnimateActionsComponent implements OnInit {
     }, 1500)
 
     setTimeout(() => {
-      if (this.damage2 !== 0)
+      if (this.player2.hp > 0)
         this.boosAttack();
     }, 1600)
 
   }
 
+  checkSkill(skill) {
+
+    switch (skill) {
+
+      case 1:
+        this.player1.strength = this.player1.strength;
+        break;
+      case 2:
+        this.player1.strength = this.calculateAttack(this.player1.minAtacck, this.player1.maxAtacck);
+        this.realDamage1 = this.player1.strength
+        setTimeout(() => {
+          document.getElementById('damage-2').textContent = this.realDamage1;
+        }, 1200)
+
+        break;
+      case 3:
+        this.player1.strength = this.calculateAttack(this.player1.minAtacck, this.player1.maxAtacck);
+        this.realDamage1 = this.player1.strength
+        setTimeout(() => {
+          document.getElementById('damage-2').textContent = this.realDamage1;
+        }, 1200)
+        break;
+      case 4:
+        this.player1.strength = this.calculateAttack(this.player1.minAtacck, this.player1.maxAtacck);
+        this.realDamage1 = this.player1.strength;
+        setTimeout(() => {
+          document.getElementById('damage-2').textContent = this.realDamage1;
+        }, 1200)
+        break;
+    }
+  }
+
+  checkBossSkill(skill) {
+
+    switch (skill) {
+
+      case 1:
+        this.player2.strength = this.player2.strength;
+        break;
+      case 2:
+        this.player2.strength = this.calculateAttack(this.player2.minAtacck, this.player2.maxAtacck);
+        this.realDamage2 = this.player2.strength
+        setTimeout(() => {
+          document.getElementById('damage-1').textContent = this.realDamage2;
+        }, 1200)
+        break;
+      case 3:
+        this.player2.strength = this.calculateAttack(this.player2.minAtacck, this.player2.maxAtacck);
+        this.realDamage2 = this.player2.strength
+        setTimeout(() => {
+          document.getElementById('damage-1').textContent = this.realDamage2;
+        }, 1200)
+        break;
+      case 4:
+        this.player2.strength = this.calculateAttack(this.player2.minAtacck, this.player2.maxAtacck);
+        this.realDamage2 = this.player2.strength
+        setTimeout(() => {
+          document.getElementById('damage-1').textContent = this.realDamage2;
+        }, 1200)
+        break;
+    }
+  }
+
+  calculateAttack(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
   boosAttack() {
+
+    this.checkBossSkill(2);
     //action init
     let start = new Date().getTime();
 
@@ -224,8 +296,14 @@ export class AnimateActionsComponent implements OnInit {
 
     //stop attack animation
     setTimeout(() => {
-      this.checkStop(start, 1500)
+      this.checkStop(start, 1500);
     }, 1500)
+
+    setTimeout(() => {
+      this.hideBtn = true;
+      document.getElementById('damage-2').textContent = '';
+      document.getElementById('damage-1').textContent = '';
+    }, 1950)
   }
 
   setImage(player, action, fighter, img) {
@@ -248,7 +326,6 @@ export class AnimateActionsComponent implements OnInit {
     if (player == 1) {
       let fullHp = this.player.hp;
       this.player2.hp = this.player2.hp - this.player1.strength;
-      console.log(this.player2.hp)
       this.calculateHp(player, fullHp, this.player2.hp);
       document.getElementById('health-2').textContent = this.player2.hp.toString()
 
@@ -271,9 +348,10 @@ export class AnimateActionsComponent implements OnInit {
       const element = <HTMLElement>document.getElementsByClassName('hp-bar-2')[0];
       element.style.width = `${this.damage2}%`;
 
-      if (this.damage2 == 0) {
-        this.battleAnimations(2, this.player2.fighter);
-        document.getElementById(`btn-1`).style.display = 'none'
+      if (this.player2.hp < 0) {
+        this.finishBattle(2, this.player2.fighter);
+        this.player2.hp = 0
+        this.hideBtn = false;
       }
     } else {
 
@@ -281,15 +359,16 @@ export class AnimateActionsComponent implements OnInit {
       const element = <HTMLElement>document.getElementsByClassName('hp-bar-1')[0];
       element.style.width = `${this.damage1}%`;
 
-      if (this.damage1 == 0) {
-        this.battleAnimations(1, this.player1.fighter);
-        document.getElementById(`btn-1`).style.display = 'none'
+      if (this.player1.hp < 0) {
+        this.finishBattle(1, this.player1.fighter);
+        this.player1.hp = 0
+        this.hideBtn = false;
       }
     }
 
   }
 
-  battleAnimations(player, fighter) {
+  finishBattle(player, fighter) {
 
     setTimeout(() => {
       this.animate('dying', 0, 14, 30, 1000, `attack_p${player}`, fighter);
@@ -303,7 +382,8 @@ export class AnimateActionsComponent implements OnInit {
       const element = <HTMLElement>document.getElementsByClassName(`hp-bar-${player}`)[0];
       element.style.borderColor = 'white'
       document.getElementById(`attack_p${player}`)['src'] = `/assets/dying/${fighter}/14.png`;
-
+      document.getElementById(`damage-${player}`).textContent = '';
+      this.hideBtn = false;
     }, 1100)
 
   }
