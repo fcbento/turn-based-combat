@@ -1,0 +1,9 @@
+<div 
+    class="card" 
+    [ngStyle]="{'background-color': character.selected && (player == 1) ? 'green' : character.selected && (player == 2) ? 'red' : ''}" 
+    (click)="selectChar(character)">
+    
+    <img [ngClass]="player === 1 ? 'char-portrait-1' : 'char-portrait-2'" src="assets/portraits/{{character.portrait}}.png" alt="">
+    
+    <p>{{character.name}}</p>
+</div>

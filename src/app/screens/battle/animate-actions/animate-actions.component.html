@@ -1,0 +1,26 @@
+<div class="row center-xs">
+    <div class="col-lg-12">
+
+        <div class="full-hp-bar">
+            <div class="hp-bar-{{player.player}}"></div>
+        </div>
+
+        <p class="start-xs health-bar" id="health-1" *ngIf="player.player === 1">{{player.hp}}</p>
+        <p class="start-xs health-bar" id="health-2" *ngIf="player.player === 2">{{player.hp}}</p>
+
+        <img [ngClass]="player.player == 1 ? 'char-portrait-1' : 'char-portrait-2'"
+            src="assets/portraits/{{player.portrait}}.png" id="{{img}}">
+
+        <br>
+      
+        
+        <div *ngFor="let skill of player.skills; let i = index" id="btn-1">
+           
+            <button (click)="attackBtn(player.player)" *ngIf="player.player === 1 && i == 0" > {{skill.name}}</button>
+            <button (click)="attackBtn(player.player)" *ngIf="player.player === 1 && i == 1" > {{skill.name}}</button>
+            <button (click)="attackBtn(player.player)" *ngIf="player.player === 1 && i == 2" > {{skill.name}}</button>
+            <button (click)="attackBtn(player.player)" *ngIf="player.player === 1 && i == 3" > {{skill.name}}</button>
+        </div>
+        <!-- <button id="btn-2" (click)="attackBtn(player.player)" *ngIf="player.player === 2">Attack</button> -->
+    </div>
+</div>

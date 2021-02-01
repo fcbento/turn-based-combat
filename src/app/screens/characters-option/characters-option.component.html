@@ -1,0 +1,45 @@
+<div class="container-fluid">
+  <div class="row center-xs">
+
+    <div class="col-lg-6 player-selection">
+      <h1>player 1</h1>
+      <div class="row">
+        <app-character 
+          class="col-lg-3"
+          (selectedChar)="getSelectedChar($event)"
+          *ngFor="let char of characters1" 
+          [character]="char"
+          [player]="1">
+        </app-character>
+      </div>
+
+      <div class="row center-xs" *ngIf="fighter1.selected">
+        <div class="col-lg-6">
+          <button (click)="readyForBattle(1)">ready</button>
+        </div>
+      </div>
+
+    </div>
+    
+    <div class="col-lg-6 player-selection">
+      <h1>player 2</h1>
+    
+      <div class="row">
+        <app-character 
+          class="col-lg-3" 
+          (selectedChar)="getSelectedChar($event)"
+          *ngFor="let char of characters2" 
+          [character]="char"
+          [player]="2">
+        </app-character>
+      </div>
+
+      <div class="row center-xs" *ngIf="fighter2.selected">
+        <div class="col-lg-6">
+          <button (click)="readyForBattle(2)">ready</button>
+        </div>
+      </div>
+    
+    </div>
+  </div>
+</div>

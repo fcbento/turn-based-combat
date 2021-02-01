@@ -1,0 +1,16 @@
+.card{
+    border: 4px solid black;
+    padding: 20px;
+    cursor: pointer;
+    margin: 3px;
+}
+
+.char-portrait-1{
+    width: 100%;
+}
+
+.char-portrait-2{
+    width: 100%;
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+}

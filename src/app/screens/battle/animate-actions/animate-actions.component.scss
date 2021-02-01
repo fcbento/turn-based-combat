@@ -1,0 +1,32 @@
+.char-portrait-1{
+    width: 50%;
+    
+}
+
+.char-portrait-2{
+    width: 70%;
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    margin-top: -70px;
+}
+
+.hp-bar-1{
+    border: 11px solid rgb(0, 255, 76);
+    width: 90%;
+    background-color: black;
+}
+
+.hp-bar-2{
+    border: 11px solid red;
+    width: 90%;
+    background-color: black;
+}
+
+.full-hp-bar{
+    padding: 20px;
+    border: 11px solid rgb(2, 2, 2);
+}
+
+.health-bar{
+    font-size: 30px;
+}
