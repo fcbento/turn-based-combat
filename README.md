@@ -1,27 +1,38 @@
-# BattleGame
+<h1 align="center">Welcome to Battle-game 👋</h1>
+<p>
+  <a href="https://www.npmjs.com/package/svelte-app" target="_blank">
+    <img alt="Version" src="https://img.shields.io/npm/v/svelte-app.svg">
+  </a>
+</p>
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.0.6.
+## Demo
 
-## Development server
+![](battle4.gif)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+> Work in progress.
 
-## Code scaffolding
+> Playing a bit with Angular. It's not fully completed yet.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Install
 
-## Build
+```sh
+npm install
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+## Usage
 
-## Running unit tests
+```sh
+npm run dev
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Author
 
-## Running end-to-end tests
+👤 **Felipe C. Bento**
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+* Website: linkedin.com/in/felipe-bento
+* Github: [@fcbento](https://github.com/fcbento)
+* LinkedIn: [@felipe-bento](https://linkedin.com/in/felipe-bento)
 
-## Further help
+## Show your support
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Give a ⭐️ if this project helped you!

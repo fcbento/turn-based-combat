@@ -19,8 +19,8 @@ export class AnimateActionsComponent implements OnInit {
   attackStarted: boolean = false;
   player1: Character;
   player2: Character;
-  damage1: number;
-  damage2: number;
+  damage1: number = 0;
+  damage2: number = 0;
   hideBtn = true;
   realDamage1;
   realDamage2;
@@ -131,7 +131,7 @@ export class AnimateActionsComponent implements OnInit {
   }
 
   attackBtn(player, skill) {
-
+    document.getElementById('damage-1').textContent = '';
     this.checkSkill(skill);
 
     //action init
@@ -188,36 +188,39 @@ export class AnimateActionsComponent implements OnInit {
 
   }
 
-  checkSkill(skill) {
-
+  handleSkillPercentage(skill) {
     switch (skill) {
-
       case 1:
-        this.player1.strength = this.player1.strength;
-        break;
+        return this.calculatePercentage(5, 10);
       case 2:
-        this.player1.strength = this.calculateAttack(this.player1.minAtacck, this.player1.maxAtacck);
-        this.realDamage1 = this.player1.strength
-        setTimeout(() => {
-          document.getElementById('damage-2').textContent = this.realDamage1;
-        }, 1200)
-
-        break;
+        return this.calculatePercentage(5, 30);
       case 3:
-        this.player1.strength = this.calculateAttack(this.player1.minAtacck, this.player1.maxAtacck);
-        this.realDamage1 = this.player1.strength
-        setTimeout(() => {
-          document.getElementById('damage-2').textContent = this.realDamage1;
-        }, 1200)
-        break;
+        return this.calculatePercentage(5, 60);
       case 4:
-        this.player1.strength = this.calculateAttack(this.player1.minAtacck, this.player1.maxAtacck);
-        this.realDamage1 = this.player1.strength;
-        setTimeout(() => {
-          document.getElementById('damage-2').textContent = this.realDamage1;
-        }, 1200)
-        break;
+        return this.calculatePercentage(5, 90);
     }
+  }
+
+  handleSkillAttack(skill) {
+    switch (skill) {
+      case 1:
+        return this.calculateAttack(1, 5);
+      case 2:
+        return this.calculateAttack(10, 20);
+      case 3:
+        return this.calculateAttack(10, 70);
+      case 4:
+        return this.calculateAttack(10, 90);
+    }
+  }
+
+  checkSkill(skill) {
+    this.player1.strength = this.calculateAttack(this.player1.minAtacck, this.player1.maxAtacck);
+    this.realDamage1 = this.player1.strength + (this.handleSkillAttack(skill) + this.handleSkillPercentage(skill))
+    setTimeout(() => {
+      document.getElementById('damage-2').textContent = this.realDamage1;
+    }, 1200)
+
   }
 
   checkBossSkill(skill) {
@@ -225,29 +228,37 @@ export class AnimateActionsComponent implements OnInit {
     switch (skill) {
 
       case 1:
-        this.player2.strength = this.player2.strength;
+        this.player2.strength = this.calculateAttack(this.player2.minAtacck, this.player2.maxAtacck);
+        this.realDamage2 = this.player2.strength + (100 * 0.1)
+        setTimeout(() => {
+          document.getElementById('damage-1').textContent = this.realDamage2;
+        }, 1200)
         break;
+
       case 2:
         this.player2.strength = this.calculateAttack(this.player2.minAtacck, this.player2.maxAtacck);
-        this.realDamage2 = this.player2.strength
+        this.realDamage2 = this.player2.strength + (100 * 0.5)
         setTimeout(() => {
           document.getElementById('damage-1').textContent = this.realDamage2;
         }, 1200)
         break;
+
       case 3:
         this.player2.strength = this.calculateAttack(this.player2.minAtacck, this.player2.maxAtacck);
-        this.realDamage2 = this.player2.strength
+        this.realDamage2 = this.player2.strength + (100 * 0.6)
         setTimeout(() => {
           document.getElementById('damage-1').textContent = this.realDamage2;
         }, 1200)
         break;
+
       case 4:
         this.player2.strength = this.calculateAttack(this.player2.minAtacck, this.player2.maxAtacck);
-        this.realDamage2 = this.player2.strength
+        this.realDamage2 = this.player2.strength + (100 * 0.8)
         setTimeout(() => {
           document.getElementById('damage-1').textContent = this.realDamage2;
         }, 1200)
         break;
+
     }
   }
 
@@ -255,8 +266,14 @@ export class AnimateActionsComponent implements OnInit {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
-  boosAttack() {
+  calculatePercentage(min, max) {
+    let random = Math.floor(Math.random() * (max - min + 1) + min);
+    let result = (random / 100) * 100;
+    return result;
+  }
 
+  boosAttack() {
+    document.getElementById('damage-2').textContent = '';
     this.checkBossSkill(2);
     //action init
     let start = new Date().getTime();
@@ -320,19 +337,20 @@ export class AnimateActionsComponent implements OnInit {
 
   }
 
+
   battleStats(player) {
 
     //player 1 starts attacking ; player 2 starts attacking
     if (player == 1) {
       let fullHp = this.player.hp;
-      this.player2.hp = this.player2.hp - this.player1.strength;
+      this.player2.hp = this.player2.hp - this.realDamage1;
       this.calculateHp(player, fullHp, this.player2.hp);
       document.getElementById('health-2').textContent = this.player2.hp.toString()
 
     } else {
 
       let fullHp = this.player.hp;
-      this.player1.hp = this.player1.hp - this.player2.strength;
+      this.player1.hp = this.player1.hp - this.realDamage2;
       this.calculateHp(player, fullHp, this.player1.hp);
       document.getElementById('health-1').textContent = this.player1.hp.toString()
     }
@@ -346,13 +364,17 @@ export class AnimateActionsComponent implements OnInit {
 
       this.damage2 = ((currentHp / fullHp) * 100);
       const element = <HTMLElement>document.getElementsByClassName('hp-bar-2')[0];
+      console.log(this.damage2)
       element.style.width = `${this.damage2}%`;
 
       if (this.player2.hp < 0) {
         this.finishBattle(2, this.player2.fighter);
+        element.style.width = '0';
+        element.style.backgroundColor = 'white';
         this.player2.hp = 0
         this.hideBtn = false;
       }
+
     } else {
 
       this.damage1 = ((currentHp / fullHp) * 100);
@@ -361,9 +383,12 @@ export class AnimateActionsComponent implements OnInit {
 
       if (this.player1.hp < 0) {
         this.finishBattle(1, this.player1.fighter);
+        element.style.width = '0';
+        element.style.backgroundColor = 'white';
         this.player1.hp = 0
         this.hideBtn = false;
       }
+      
     }
 
   }
@@ -380,7 +405,7 @@ export class AnimateActionsComponent implements OnInit {
 
     setTimeout(() => {
       const element = <HTMLElement>document.getElementsByClassName(`hp-bar-${player}`)[0];
-      element.style.borderColor = 'white'
+      element.style.borderColor = 'transparent'
       document.getElementById(`attack_p${player}`)['src'] = `/assets/dying/${fighter}/14.png`;
       document.getElementById(`damage-${player}`).textContent = '';
       this.hideBtn = false;

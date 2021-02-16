@@ -1,32 +1,42 @@
 .char-portrait-1{
     width: 50%;
-    
 }
 
 .char-portrait-2{
-    width: 70%;
+    width: 75%;
     -webkit-transform: scaleX(-1);
     transform: scaleX(-1);
     margin-top: -70px;
 }
 
 .hp-bar-1{
-    border: 11px solid rgb(0, 255, 76);
-    width: 90%;
-    background-color: black;
+    border: 10px solid rgb(0, 255, 76);
+    width: 100%;
+    background-color: rgb(0, 255, 76);
 }
 
 .hp-bar-2{
-    border: 11px solid red;
-    width: 90%;
-    background-color: black;
-}
-
-.full-hp-bar{
-    padding: 20px;
-    border: 11px solid rgb(2, 2, 2);
+    border: 10px solid red;
+    width: 100%;
+    background-color: red;
 }
 
 .health-bar{
     font-size: 30px;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+}
+
+.btn-actions{
+    button{
+        margin: 5px;
+        cursor: pointer; 
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;       
+    }
+}
+
+.damage{
+    color: orange;
+    font-size: 80px;
+    font-weight: bold;
 }

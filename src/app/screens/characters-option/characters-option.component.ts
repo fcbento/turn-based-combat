@@ -80,7 +80,7 @@ export class CharactersOptionComponent implements OnInit {
         fighter: 1,
         hp: 200,
         strength: 0,
-        minAtacck: 22,
+        minAtacck: 1,
         maxAtacck: 90,
         skills: [
           {
@@ -97,7 +97,7 @@ export class CharactersOptionComponent implements OnInit {
         fighter: 2,
         hp: 500,
         strength: 0,
-        minAtacck: 22,
+        minAtacck: 1,
         maxAtacck: 90,
         skills: [
           {
@@ -112,22 +112,22 @@ export class CharactersOptionComponent implements OnInit {
         player: 0,
         ready: false,
         fighter: 3,
-        hp: 500,
+        hp: 1000,
         strength: 0,
-        minAtacck: 22,
+        minAtacck: 1,
         maxAtacck: 90,
         skills: [
           {
             name: 'Attack',
           },
           {
-            name: 'The Struggle of the Hawk',
+            name: 'The Struggle',
           },
           {
-            name: 'Beacon of the Gladiator',
+            name: 'Beacon',
           },
           {
-            name: 'Hellrider Madness',
+            name: 'Hellrider',
           },
         ]
       }
@@ -141,7 +141,7 @@ export class CharactersOptionComponent implements OnInit {
         player: 0,
         ready: false,
         fighter: 1,
-        hp: 500,
+        hp: 1000,
         strength: 0,
         minAtacck: 30,
         maxAtacck: 90,

@@ -8,3 +8,24 @@
     -webkit-transform: scaleX(-1);
     transform: scaleX(-1);
 }
+
+#bg-img{
+    background-color: black;
+    background-image: url('/assets/background/bg.png');
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    height: 98vh;
+}
+
+p{
+    font-size: 30px;
+    color: rgb(0, 0, 0);
+    font-weight: bold;
+}
+
+.img-2{
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+}
