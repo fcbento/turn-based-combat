@@ -7,7 +7,7 @@
         <app-character 
           class="col-lg-3"
           (selectedChar)="getSelectedChar($event)"
-          *ngFor="let char of characters1" 
+          *ngFor="let char of characters1.charactersPlayer1" 
           [character]="char"
           [player]="1">
         </app-character>
@@ -28,7 +28,7 @@
         <app-character 
           class="col-lg-3" 
           (selectedChar)="getSelectedChar($event)"
-          *ngFor="let char of characters2" 
+          *ngFor="let char of characters2.charactersPlayer2" 
           [character]="char"
           [player]="2">
         </app-character>

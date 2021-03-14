@@ -126,7 +126,6 @@ export class BattleComponent implements OnInit {
   }
 
   stopAnimation() {
-    console.log('stopAnimation')
     clearInterval(this.tID);
   }
 

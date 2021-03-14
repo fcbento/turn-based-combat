@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Character } from 'src/app/models/character.model';
+import { Characters1 } from 'src/app/models/characters-1.model';
+import { Characters2 } from 'src/app/models/characters-2.model';
 
 @Component({
   selector: 'app-characters-option',
@@ -9,35 +11,37 @@ import { Character } from 'src/app/models/character.model';
 })
 export class CharactersOptionComponent implements OnInit {
 
-  characters1: Array<Character>;
-  characters2: Array<Character>;
+  characters1: Characters1 = new Characters1();
+  characters2: Characters2 = new Characters2();
   fighter1: Character = new Character();
   fighter2: Character = new Character();
 
   constructor(private router: Router) {
-
   }
 
   ngOnInit(): void {
-    this.charSpecs();
   }
 
-  getSelectedChar(e: Character) {
+  getSelectedChar(e: any) {
 
     if (e.player == 1) {
-      this.selectedChar(e, this.characters1);
-      this.fighter1 = this.characters1.filter(item => item.selected && item.player == 1)[0]
+      this.selectedChar(1, e, this.characters1);
+      this.fighter1 = this.characters1.charactersPlayer1.filter(item => item.selected && item.player == 1)[0]
     }
 
     if (e.player == 2) {
-      this.selectedChar(e, this.characters2);
-      this.fighter2 = this.characters2.filter(item => item.selected && item.player == 2)[0]
+      this.selectedChar(2, e, this.characters2);
+      this.fighter2 = this.characters2.charactersPlayer2.filter(item => item.selected && item.player == 2)[0]
     }
 
   }
 
-  selectedChar(e, arr: Array<Character>) {
-    return arr.forEach(char => {
+  selectedChar(player, e, arr) {
+
+    let newArr = [];
+    player === 1 ? newArr = arr.charactersPlayer1 : newArr = arr.charactersPlayer2;
+    
+    return newArr.forEach(char => {
       if (e.name === char.name) {
         char.player = e.player;
         char.selected = e.selected;
@@ -68,124 +72,4 @@ export class CharactersOptionComponent implements OnInit {
     }
   }
 
-  charSpecs() {
-
-    this.characters1 = [
-      {
-        name: 'Berserker',
-        portrait: 'golem_01',
-        selected: false,
-        player: 0,
-        ready: false,
-        fighter: 1,
-        hp: 200,
-        fullHp: 200,
-        strength: 0,
-        minAtacck: 1,
-        maxAtacck: 90,
-        skills: [
-          {
-            name: 'Attack',
-          },
-          {
-            name: 'The Struggle',
-          },
-          {
-            name: 'Beacon',
-          },
-          {
-            name: 'Hellrider',
-          },
-        ]
-      },
-      {
-        name: 'Terminator',
-        portrait: 'golem_02',
-        selected: false,
-        player: 0,
-        ready: false,
-        fighter: 2,
-        hp: 500,
-        fullHp: 500,
-        strength: 0,
-        minAtacck: 1,
-        maxAtacck: 90,
-        skills: [
-          {
-            name: 'Attack',
-            icon: 'pointy-sword',
-          },
-          {
-            name: 'The Struggle',
-            icon: 'sword-in-stone',
-          },
-          {
-            name: 'Beacon',
-            icon: 'swords-emblem',
-          },
-          {
-            name: 'Hellrider',
-            icon: 'sword-slice',
-          },
-        ]
-      },
-      {
-        name: 'Viking',
-        portrait: 'golem_03',
-        selected: false,
-        player: 0,
-        ready: false,
-        fighter: 3,
-        hp: 1000,
-        fullHp: 1000,
-        strength: 0,
-        minAtacck: 1,
-        maxAtacck: 100,
-        skills: [
-          {
-            name: 'Attack',
-          },
-          {
-            name: 'The Struggle',
-          },
-          {
-            name: 'Beacon',
-          },
-          {
-            name: 'Hellrider',
-          },
-        ]
-      }
-    ];
-
-    this.characters2 = [
-      {
-        name: 'Berserker',
-        portrait: 'golem_01',
-        selected: false,
-        player: 0,
-        ready: false,
-        fighter: 1,
-        hp: 1000,
-        fullHp: 1000,
-        strength: 0,
-        minAtacck: 30,
-        maxAtacck: 90,
-        skills: [
-          {
-            name: 'Attack',
-          },
-          {
-            name: 'The Struggle',
-          },
-          {
-            name: 'Beacon',
-          },
-          {
-            name: 'Hellrider',
-          },
-        ]
-      }
-    ]
-  }
 }
