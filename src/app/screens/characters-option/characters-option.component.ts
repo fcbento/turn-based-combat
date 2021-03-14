@@ -79,13 +79,23 @@ export class CharactersOptionComponent implements OnInit {
         ready: false,
         fighter: 1,
         hp: 200,
+        fullHp: 200,
         strength: 0,
         minAtacck: 1,
         maxAtacck: 90,
         skills: [
           {
-            name: 'Attack'
-          }
+            name: 'Attack',
+          },
+          {
+            name: 'The Struggle',
+          },
+          {
+            name: 'Beacon',
+          },
+          {
+            name: 'Hellrider',
+          },
         ]
       },
       {
@@ -96,13 +106,27 @@ export class CharactersOptionComponent implements OnInit {
         ready: false,
         fighter: 2,
         hp: 500,
+        fullHp: 500,
         strength: 0,
         minAtacck: 1,
         maxAtacck: 90,
         skills: [
           {
-            name: 'Attack'
-          }
+            name: 'Attack',
+            icon: 'pointy-sword',
+          },
+          {
+            name: 'The Struggle',
+            icon: 'sword-in-stone',
+          },
+          {
+            name: 'Beacon',
+            icon: 'swords-emblem',
+          },
+          {
+            name: 'Hellrider',
+            icon: 'sword-slice',
+          },
         ]
       },
       {
@@ -113,9 +137,10 @@ export class CharactersOptionComponent implements OnInit {
         ready: false,
         fighter: 3,
         hp: 1000,
+        fullHp: 1000,
         strength: 0,
         minAtacck: 1,
-        maxAtacck: 90,
+        maxAtacck: 100,
         skills: [
           {
             name: 'Attack',
@@ -142,13 +167,23 @@ export class CharactersOptionComponent implements OnInit {
         ready: false,
         fighter: 1,
         hp: 1000,
+        fullHp: 1000,
         strength: 0,
         minAtacck: 30,
         maxAtacck: 90,
         skills: [
           {
-            name: 'Attack'
-          }
+            name: 'Attack',
+          },
+          {
+            name: 'The Struggle',
+          },
+          {
+            name: 'Beacon',
+          },
+          {
+            name: 'Hellrider',
+          },
         ]
       }
     ]

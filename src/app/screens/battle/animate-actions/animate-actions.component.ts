@@ -24,6 +24,7 @@ export class AnimateActionsComponent implements OnInit {
   hideBtn = true;
   realDamage1;
   realDamage2;
+  displayMenu = false;
 
   constructor(private audio: AudioService) { }
 
@@ -131,7 +132,7 @@ export class AnimateActionsComponent implements OnInit {
   }
 
   attackBtn(player, skill) {
-    document.getElementById('damage-1').textContent = '';
+    //document.getElementById('damage-1').textContent = ''; display damage
     this.checkSkill(skill);
 
     //action init
@@ -191,13 +192,13 @@ export class AnimateActionsComponent implements OnInit {
   handleSkillPercentage(skill) {
     switch (skill) {
       case 1:
-        return this.calculatePercentage(5, 10);
+        return this.calculatePercentage(55, 20);
       case 2:
-        return this.calculatePercentage(5, 30);
+        return this.calculatePercentage(35, 50);
       case 3:
-        return this.calculatePercentage(5, 60);
+        return this.calculatePercentage(25, 90);
       case 4:
-        return this.calculatePercentage(5, 90);
+        return this.calculatePercentage(15, 190);
     }
   }
 
@@ -208,9 +209,9 @@ export class AnimateActionsComponent implements OnInit {
       case 2:
         return this.calculateAttack(10, 20);
       case 3:
-        return this.calculateAttack(10, 70);
+        return this.calculateAttack(20, 70);
       case 4:
-        return this.calculateAttack(10, 90);
+        return this.calculateAttack(30, 95);
     }
   }
 
@@ -218,7 +219,7 @@ export class AnimateActionsComponent implements OnInit {
     this.player1.strength = this.calculateAttack(this.player1.minAtacck, this.player1.maxAtacck);
     this.realDamage1 = this.player1.strength + (this.handleSkillAttack(skill) + this.handleSkillPercentage(skill))
     setTimeout(() => {
-      document.getElementById('damage-2').textContent = this.realDamage1;
+      //document.getElementById('damage-2').textContent = this.realDamage1;
     }, 1200)
 
   }
@@ -231,7 +232,7 @@ export class AnimateActionsComponent implements OnInit {
         this.player2.strength = this.calculateAttack(this.player2.minAtacck, this.player2.maxAtacck);
         this.realDamage2 = this.player2.strength + (100 * 0.1)
         setTimeout(() => {
-          document.getElementById('damage-1').textContent = this.realDamage2;
+          //document.getElementById('damage-1').textContent = this.realDamage2;
         }, 1200)
         break;
 
@@ -239,7 +240,7 @@ export class AnimateActionsComponent implements OnInit {
         this.player2.strength = this.calculateAttack(this.player2.minAtacck, this.player2.maxAtacck);
         this.realDamage2 = this.player2.strength + (100 * 0.5)
         setTimeout(() => {
-          document.getElementById('damage-1').textContent = this.realDamage2;
+          //document.getElementById('damage-1').textContent = this.realDamage2;
         }, 1200)
         break;
 
@@ -247,7 +248,7 @@ export class AnimateActionsComponent implements OnInit {
         this.player2.strength = this.calculateAttack(this.player2.minAtacck, this.player2.maxAtacck);
         this.realDamage2 = this.player2.strength + (100 * 0.6)
         setTimeout(() => {
-          document.getElementById('damage-1').textContent = this.realDamage2;
+          //document.getElementById('damage-1').textContent = this.realDamage2;
         }, 1200)
         break;
 
@@ -255,7 +256,7 @@ export class AnimateActionsComponent implements OnInit {
         this.player2.strength = this.calculateAttack(this.player2.minAtacck, this.player2.maxAtacck);
         this.realDamage2 = this.player2.strength + (100 * 0.8)
         setTimeout(() => {
-          document.getElementById('damage-1').textContent = this.realDamage2;
+         // document.getElementById('damage-1').textContent = this.realDamage2;
         }, 1200)
         break;
 
@@ -318,8 +319,8 @@ export class AnimateActionsComponent implements OnInit {
 
     setTimeout(() => {
       this.hideBtn = true;
-      document.getElementById('damage-2').textContent = '';
-      document.getElementById('damage-1').textContent = '';
+      //document.getElementById('damage-2').textContent = '';
+      //document.getElementById('damage-1').textContent = '';
     }, 1950)
   }
 
@@ -342,54 +343,69 @@ export class AnimateActionsComponent implements OnInit {
 
     //player 1 starts attacking ; player 2 starts attacking
     if (player == 1) {
-      let fullHp = this.player.hp;
+      let fullHp = this.player2.hp;
       this.player2.hp = this.player2.hp - this.realDamage1;
-      this.calculateHp(player, fullHp, this.player2.hp);
-      document.getElementById('health-2').textContent = this.player2.hp.toString()
+      this.calculatePlayerHp(player, this.player2.fullHp, this.player2.hp);
+      document.getElementById('health-2').textContent = this.player2.hp.toString() + '/' + this.player2.fullHp
 
     } else {
 
-      let fullHp = this.player.hp;
+      let fullHp = this.player1.hp;
       this.player1.hp = this.player1.hp - this.realDamage2;
-      this.calculateHp(player, fullHp, this.player1.hp);
-      document.getElementById('health-1').textContent = this.player1.hp.toString()
+      this.calculatePlayerHp(player, this.player1.fullHp, this.player1.hp);
+      document.getElementById('health-1').textContent = this.player1.hp.toString()  + '/' + this.player1.fullHp
     }
 
   }
 
   //calculate damage based on strength and hp properties 
-  calculateHp(player, fullHp, currentHp) {
+  calculatePlayerHp(player, fullHp, currentHp) {
+
+    let damage: any;
+    let fighter: any;
+    let element: any;
 
     if (player === 1) {
-
       this.damage2 = ((currentHp / fullHp) * 100);
-      const element = <HTMLElement>document.getElementsByClassName('hp-bar-2')[0];
-      console.log(this.damage2)
-      element.style.width = `${this.damage2}%`;
-
-      if (this.player2.hp < 0) {
-        this.finishBattle(2, this.player2.fighter);
-        element.style.width = '0';
-        element.style.backgroundColor = 'white';
-        this.player2.hp = 0
-        this.hideBtn = false;
-      }
-
+      damage = this.damage2;
+      fighter = this.player2.fighter;
+      element = <HTMLElement>document.getElementsByClassName(`hp-bar-2`)[0];
+      player = 2;
+      this.changeHealthBarColor(currentHp, fullHp, element);
     } else {
-
       this.damage1 = ((currentHp / fullHp) * 100);
-      const element = <HTMLElement>document.getElementsByClassName('hp-bar-1')[0];
-      element.style.width = `${this.damage1}%`;
-
-      if (this.player1.hp < 0) {
-        this.finishBattle(1, this.player1.fighter);
-        element.style.width = '0';
-        element.style.backgroundColor = 'white';
-        this.player1.hp = 0
-        this.hideBtn = false;
-      }
-      
+      damage = this.damage1;
+      fighter = this.player1.fighter;
+      element = <HTMLElement>document.getElementsByClassName(`hp-bar-1`)[0];
+      player = 1;
+      this.changeHealthBarColor(currentHp, fullHp, element);
     }
+
+    element.style.width = `${damage}%`;
+
+    if (this.player2.hp < 0 || this.player1.hp < 0) {
+      this.finishBattle(player, this.player2.fighter);
+      element.style.width = '0';
+      element.style.backgroundColor = 'white';
+      this.player2.hp = 0
+      this.player1.hp = 0
+      this.hideBtn = false;
+    }
+
+  }
+
+  changeHealthBarColor(currentHp, fullHp, element) {
+    
+    let x = fullHp / 2;
+    
+    if(currentHp < x) {
+      element.style.borderColor = 'orange';
+    }
+
+    if(currentHp < 100) {
+      element.style.borderColor = 'red';
+    }
+
 
   }
 
@@ -411,6 +427,10 @@ export class AnimateActionsComponent implements OnInit {
       this.hideBtn = false;
     }, 1100)
 
+  }
+
+  openMenu(){
+    this.displayMenu = !this.displayMenu;
   }
 
 }

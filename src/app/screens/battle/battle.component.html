@@ -1,13 +1,13 @@
 <div class="container-fluid">
     <div class="row">
     
-        <div class="col-lg-6 end-xs">
+        <div class="col-lg-6 start-xs">
             <p>{{player1.name}}</p>
             <img src="assets/portraits/{{player1.portrait}}.png" alt="" width="70px">
             <app-animate-actions [player]="player1" [initAnimation]="true"> </app-animate-actions>
         </div>
 
-        <div class="col-lg-6 start-xs">
+        <div class="col-lg-6 end-xs">
             <p> {{player2.name}}</p>
             <img src="assets/portraits/{{player2.portrait}}.png" class="img-2" alt="" width="70px">
             <app-animate-actions [player]="player2" [initAnimation]="true"> </app-animate-actions>

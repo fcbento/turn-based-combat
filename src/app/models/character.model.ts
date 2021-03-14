@@ -7,6 +7,7 @@ export class Character {
     fighter: number;
 
     hp: number;
+    fullHp: number;
     strength: number;
     minAtacck: number;
     maxAtacck: number;
