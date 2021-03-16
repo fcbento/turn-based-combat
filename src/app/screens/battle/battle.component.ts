@@ -37,6 +37,7 @@ export class BattleComponent implements OnInit {
       this.player2 = player2;
     }
   }
+  
 
   attack() {
     this.isAtaccking = !this.isAtaccking;

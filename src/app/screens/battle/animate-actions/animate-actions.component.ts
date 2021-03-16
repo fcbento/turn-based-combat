@@ -30,25 +30,16 @@ export class AnimateActionsComponent implements OnInit {
 
   ngOnInit(): void {
 
+    const player1 = JSON.parse(localStorage.getItem('player1'));
+    const player2 = JSON.parse(localStorage.getItem('player2'));
+
+    this.player1 = player1;
+    this.player2 = player2;
+
     if (this.player.player == 1) {
       this.img = "attack_p1"
     } else {
       this.img = "attack_p2"
-    }
-
-    if (this.initAnimation) {
-      //this.idleBlink();
-    }
-
-    const player1 = JSON.parse(localStorage.getItem('player1'));
-    const player2 = JSON.parse(localStorage.getItem('player2'));
-
-    if (player1) {
-      this.player1 = player1;
-    }
-
-    if (player2) {
-      this.player2 = player2;
     }
 
   }
@@ -137,13 +128,14 @@ export class AnimateActionsComponent implements OnInit {
 
     //action init
     let start = new Date().getTime();
-
+    this.stopAnimation();
     //start walking
     this.walking();
     this.hideBtn = false;
     //stop walking
     setTimeout(() => {
       this.checkStop(start, 1000)
+      this.stopAnimation();
     }, 1000)
 
     // start attacking
@@ -185,7 +177,9 @@ export class AnimateActionsComponent implements OnInit {
     setTimeout(() => {
       if (this.player2.hp > 0)
         this.boosAttack();
-    }, 1600)
+    }, 1600);
+
+
 
   }
 
@@ -218,10 +212,6 @@ export class AnimateActionsComponent implements OnInit {
   checkSkill(skill) {
     this.player1.strength = this.calculateAttack(this.player1.minAtacck, this.player1.maxAtacck);
     this.realDamage1 = this.player1.strength + (this.handleSkillAttack(skill) + this.handleSkillPercentage(skill))
-    setTimeout(() => {
-      //document.getElementById('damage-2').textContent = this.realDamage1;
-    }, 1200)
-
   }
 
   checkBossSkill(skill) {
@@ -256,7 +246,7 @@ export class AnimateActionsComponent implements OnInit {
         this.player2.strength = this.calculateAttack(this.player2.minAtacck, this.player2.maxAtacck);
         this.realDamage2 = this.player2.strength + (100 * 0.8)
         setTimeout(() => {
-         // document.getElementById('damage-1').textContent = this.realDamage2;
+          // document.getElementById('damage-1').textContent = this.realDamage2;
         }, 1200)
         break;
 
@@ -353,7 +343,7 @@ export class AnimateActionsComponent implements OnInit {
       let fullHp = this.player1.hp;
       this.player1.hp = this.player1.hp - this.realDamage2;
       this.calculatePlayerHp(player, this.player1.fullHp, this.player1.hp);
-      document.getElementById('health-1').textContent = this.player1.hp.toString()  + '/' + this.player1.fullHp
+      document.getElementById('health-1').textContent = this.player1.hp.toString() + '/' + this.player1.fullHp
     }
 
   }
@@ -395,17 +385,15 @@ export class AnimateActionsComponent implements OnInit {
   }
 
   changeHealthBarColor(currentHp, fullHp, element) {
-    
-    let x = fullHp / 2;
-    
-    if(currentHp < x) {
+    const x = fullHp / 2;
+
+    if (currentHp < x) {
       element.style.borderColor = 'orange';
     }
 
-    if(currentHp < 100) {
+    if (currentHp < 100) {
       element.style.borderColor = 'red';
     }
-
 
   }
 
@@ -429,7 +417,7 @@ export class AnimateActionsComponent implements OnInit {
 
   }
 
-  openMenu(){
+  openMenu() {
     this.displayMenu = !this.displayMenu;
   }
 

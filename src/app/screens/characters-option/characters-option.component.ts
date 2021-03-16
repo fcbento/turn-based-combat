@@ -40,7 +40,7 @@ export class CharactersOptionComponent implements OnInit {
 
     let newArr = [];
     player === 1 ? newArr = arr.charactersPlayer1 : newArr = arr.charactersPlayer2;
-    
+
     return newArr.forEach(char => {
       if (e.name === char.name) {
         char.player = e.player;
@@ -52,13 +52,10 @@ export class CharactersOptionComponent implements OnInit {
   }
 
   readyForBattle(player: number) {
-
     if (player === 1) {
-      this.fighter1.ready = true;
-      localStorage.setItem('player1', JSON.stringify(this.fighter1));
+      this.setStoragePlayer(player, this.fighter1)
     } else {
-      this.fighter2.ready = true;
-      localStorage.setItem('player2', JSON.stringify(this.fighter2));
+      this.setStoragePlayer(player, this.fighter2)
     }
 
     this.createBattle();
@@ -67,9 +64,12 @@ export class CharactersOptionComponent implements OnInit {
   createBattle() {
     if (this.fighter1.ready && this.fighter2.ready) {
       this.router.navigate(['battle']);
-    } else {
-      console.log('cant battle')
     }
+  }
+
+  setStoragePlayer(player, fighter) {
+    fighter.ready = true;
+    localStorage.setItem(`player${player}`, JSON.stringify(fighter));
   }
 
 }
