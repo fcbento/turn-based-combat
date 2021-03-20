@@ -29,6 +29,7 @@ export class BattleComponent implements OnInit {
 
     if (player2) {
       this.player2 = player2;
+      console.log(this.player2)
     }
   }
 }

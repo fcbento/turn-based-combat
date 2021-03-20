@@ -29,10 +29,7 @@ export class CharactersOptionComponent implements OnInit {
       this.fighter1 = this.characters1.charactersPlayer1.filter(item => item.selected && item.player == 1)[0]
     }
 
-    if (e.player == 2) {
-      this.selectedChar(2, e, this.characters2);
-      this.fighter2 = this.characters2.charactersPlayer2.filter(item => item.selected && item.player == 2)[0]
-    }
+    this.getRandomBoss();
 
   }
 
@@ -72,4 +69,10 @@ export class CharactersOptionComponent implements OnInit {
     localStorage.setItem(`player${player}`, JSON.stringify(fighter));
   }
 
+  getRandomBoss() {
+    this.fighter2 = this.characters2.charactersPlayer2[Math.floor(Math.random() * this.characters2.charactersPlayer2.length)];
+    this.fighter2.player = 2;
+    this.fighter2.selected = true;
+    this.setStoragePlayer(2, this.fighter2)
+  }
 }

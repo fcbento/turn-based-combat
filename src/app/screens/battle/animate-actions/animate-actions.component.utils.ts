@@ -15,27 +15,62 @@ export class AnimateUtils {
     }
 
     public attack(player, fighter) {
-        this.animate('attacks', 0, 11, 31, this.setFirstPosition(player), fighter);
+        let loop = 11;
+        
+        if (fighter === 4) {
+            loop = 11;
+        }
+
+        if (fighter === 5 || fighter === 6 || fighter === 7) {
+            loop = 9;
+        }
+        this.animate('attacks', 0, loop, 31, this.setFirstPosition(player), fighter);
+        //this.animate('attacks', 0, 11, 31, this.setFirstPosition(player), fighter);
         this.movePlayerWhenAtaccking(player);
     }
 
     hurt(player, fighter) {
+        let loop = 11;
+       
+        if (fighter === 4) {
+            loop = 11;
+        }
+
+        if (fighter === 5 || fighter === 6 || fighter === 7) {
+            loop = 9;
+        }
         this.stopAnimation();
-        this.animate('hurt', 0, 11, 30, this.setFirstPosition(player), fighter);
+        this.animate('hurt', 0, loop, 30, this.setFirstPosition(player), fighter);
+        //this.animate('hurt', 0, 11, 30, this.setFirstPosition(player), fighter);
     }
 
     dying(player, fighter) {
+        let loop = 14;
+   
+        if (fighter === 5 || fighter === 6 || fighter === 7) {
+            loop = 9;
+        }
         this.stopAnimation();
-        this.animate('dying', 0, 14, 80, this.setFirstPosition(player), fighter);
+        this.animate('dying', 0, loop, 80, this.setFirstPosition(player), fighter);
     }
 
     taunt() {
         this.animate('taunt', 0, 17, 50, this.setFirstPosition(this.player.player), this.player.fighter);
     }
 
-    walking() {
+    walking(player, fighter) {
+
+        let loop = 17;
+
+        if (fighter === 4) {
+            loop = 11;
+        }
+
+        if (fighter === 5 || fighter === 6 || fighter === 7) {
+            loop = 9;
+        }
         this.stopAnimation();
-        this.animate('walking', 0, 17, 50, this.setFirstPosition(this.player.player), this.player.fighter);
+        this.animate('walking', 0, loop, 50, this.setFirstPosition(player), fighter);
     }
 
     private animate(action, size, range, interval, player, fighter) {

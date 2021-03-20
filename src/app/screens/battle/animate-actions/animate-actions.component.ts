@@ -13,10 +13,7 @@ export class AnimateActionsComponent implements OnInit {
   @Input() player: Character;
   @Input() initAnimation: boolean;
 
-  tID;
-  animationDone: boolean = false;
   img;
-  attackStarted: boolean = false;
   player1: Character;
   player2: Character;
   damage1: number = 0;
@@ -37,6 +34,7 @@ export class AnimateActionsComponent implements OnInit {
 
     this.player1 = player1;
     this.player2 = player2;
+    console.log(this.player2)
 
     if (this.player.player == 1) {
       this.img = "attack_p1"
@@ -53,7 +51,7 @@ export class AnimateActionsComponent implements OnInit {
     this.checkSkill(skill);
 
     this.au.stopAnimation();
-    this.au.walking();
+    this.au.walking(1, this.player1.fighter);
     this.hideBtn = false;
 
     setTimeout(() => {
@@ -172,11 +170,10 @@ export class AnimateActionsComponent implements OnInit {
   }
 
   boosAttack() {
-    this.checkBossSkill(2);
-    //action init
-    let start = new Date().getTime();
 
+    this.checkBossSkill(2);
     this.au.stopAnimation();
+    this.au.walking(2, this.player2.fighter);
     this.hideBtn = false;
 
     setTimeout(() => {
@@ -226,7 +223,8 @@ export class AnimateActionsComponent implements OnInit {
 
   }
 
-  //calculate damage based on strength and hp properties 
+  //calculate damage based on strength and hp properties
+  //REFACTOR
   calculatePlayerHp(player, fullHp, currentHp) {
 
     let damage: any;
@@ -293,7 +291,7 @@ export class AnimateActionsComponent implements OnInit {
       this.au.stopAnimation();
       const element = <HTMLElement>document.getElementsByClassName(`hp-bar-${fighter.player}`)[0];
       element.style.borderColor = 'transparent'
-      document.getElementById(`attack_p${fighter.player}`)['src'] = `/assets/dying/${fighter.fighter}/14.png`;
+      document.getElementById(`attack_p${fighter.player}`)['src'] = `/assets/dying/${fighter.fighter}/${fighter.fighter == 5 ? "9" : "14"}.png`;
       this.hideBtn = false;
     }, 2100)
 
