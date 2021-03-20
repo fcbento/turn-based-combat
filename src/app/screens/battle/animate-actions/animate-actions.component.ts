@@ -1,7 +1,7 @@
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { AfterViewChecked, Component, HostListener, Input, OnInit } from '@angular/core';
 import { Character } from 'src/app/models/character.model';
 import { AudioService } from 'src/app/shared/audio.service';
+import { AnimateUtils } from './animate-actions.component.utils';
 
 @Component({
   selector: 'app-animate-actions',
@@ -25,8 +25,10 @@ export class AnimateActionsComponent implements OnInit {
   realDamage1;
   realDamage2;
   displayMenu = false;
+  au: AnimateUtils;
 
-  constructor(private audio: AudioService) { }
+  constructor(private audio: AudioService) {
+  }
 
   ngOnInit(): void {
 
@@ -42,144 +44,50 @@ export class AnimateActionsComponent implements OnInit {
       this.img = "attack_p2"
     }
 
-  }
+    this.au = new AnimateUtils(this.player);
 
-  idle() {
-    this.animate('idle', 0, 11, 30, 1000, this.img, this.player.fighter);
-  }
-
-  idleBlink() {
-    this.animate('idle_blink', 0, 12, 30, 6000, this.img, this.player.fighter);
-  }
-
-  attack() {
-    this.animate('attacks', 0, 11, 31, 1000, this.img, this.player.fighter);
-
-    if (this.player.player === 1) {
-      document.getElementById(this.img).style.marginLeft = '900px';
-    }
-
-    if (this.player.player === 2) {
-      document.getElementById(this.img).style.marginLeft = '-1500px';
-    }
-
-  }
-
-  hurt() {
-    this.animate('hurt', 0, 11, 30, 1000, this.img, this.player.fighter);
-  }
-
-  dying() {
-    this.animate('dying', 0, 14, 100, 1000, this.img, this.player.fighter);
-  }
-
-  jumpLoop() {
-    this.animate('jump_loop', 0, 5, 30, 1000, this.img, this.player.fighter);
-  }
-
-  jumpStart() {
-    this.animate('jump_start', 0, 5, 100, 1000, this.img, this.player.fighter);
-  }
-
-  taunt() {
-    this.animate('taunt', 0, 17, 50, 1000, this.img, this.player.fighter);
-  }
-
-  walking() {
-    this.animate('walking', 0, 17, 50, 1000, this.img, this.player.fighter);
-
-  }
-
-  animate(action, size, range, interval, duration, img, fighter) {
-    if (!this.attackStarted) {
-
-      this.tID = setInterval(() => {
-
-        this.setImage(img, action, fighter, size);
-
-        if (size < range) {
-          size = size + 1;
-        } else {
-          size = 0;
-        }
-
-      }, interval);
-    }
-  }
-
-  checkStop(startTime, duration) {
-    this.stopAnimation();
-    if (new Date().getTime() - startTime > duration) {
-      document.getElementById(this.img).style.marginLeft = '0';
-    }
-
-  }
-
-  stopAnimation() {
-    clearInterval(this.tID);
-    this.animationDone = true;
-    this.reset();
-    this.attackStarted = false;
   }
 
   attackBtn(player, skill) {
-    //document.getElementById('damage-1').textContent = ''; display damage
+
     this.checkSkill(skill);
 
-    //action init
-    let start = new Date().getTime();
-    this.stopAnimation();
-    //start walking
-    this.walking();
+    this.au.stopAnimation();
+    this.au.walking();
     this.hideBtn = false;
-    //stop walking
+
     setTimeout(() => {
-      this.checkStop(start, 1000)
-      this.stopAnimation();
+      this.au.stopAnimation();
     }, 1000)
 
-    // start attacking
     setTimeout(() => {
-      this.attack();
+      this.au.attack(1, this.player1.fighter);
     }, 1100)
 
-
     setTimeout(() => {
 
-      //player 1 hits player 2; start hurt animation
       if (player == 1) {
-        this.animate('hurt', 0, 11, 30, 1000, 'attack_p2', this.player2.fighter);
-        this.attackStarted = true;
+        this.au.hurt(2, this.player2.fighter);
+        setTimeout(() => {
+          this.au.stopAnimation();
+          this.au.resetPosition(this.player1.fighter, this.player2.fighter);
+          this.au.movePlayer(1, '0px');
+        }, 1300)
       }
 
-      //player 2 hits player 1; start hurt animation
-      if (player == 2) {
-        this.animate('hurt', 0, 11, 30, 1000, 'attack_p1', this.player1.fighter);
-        this.attackStarted = true;
-      }
-
-      //stop hurt animation
-      setTimeout(() => {
-        this.checkStop(start, 600)
-      }, 500);
-
-      //play audio after hurt animation stops
       this.audio.play('punch');
-      //set battle stats
+
       this.battleStats(player);
     }, 1550)
 
-    //stop attack animation
     setTimeout(() => {
-      this.checkStop(start, 1500)
+      this.au.stopAnimation();
     }, 1500)
 
     setTimeout(() => {
       if (this.player2.hp > 0)
         this.boosAttack();
-    }, 1600);
-
-
+    }, 2000);
 
   }
 
@@ -264,73 +172,43 @@ export class AnimateActionsComponent implements OnInit {
   }
 
   boosAttack() {
-    document.getElementById('damage-2').textContent = '';
     this.checkBossSkill(2);
     //action init
     let start = new Date().getTime();
 
-    //start walking
-    this.walking();
+    this.au.stopAnimation();
+    this.hideBtn = false;
 
-    //stop walking
     setTimeout(() => {
-      this.checkStop(start, 1000)
+      this.au.stopAnimation();
     }, 1000)
 
-    // start attacking
     setTimeout(() => {
-      document.getElementById('attack_p2').style.marginLeft = '-1500px';
-      this.animate('attacks', 0, 11, 30, 1000, 'attack_p2', this.player2.fighter);
+      this.au.attack(2, this.player2.fighter);
     }, 1100)
 
     setTimeout(() => {
 
-      //player 2 hits player 1; start hurt animation
-      this.animate('hurt', 0, 11, 30, 1000, 'attack_p1', this.player1.fighter);
-      this.attackStarted = true;
-
-      //stop hurt animation
+      this.au.hurt(1, this.player1.fighter);
       setTimeout(() => {
-        document.getElementById('attack_p2').style.marginLeft = '0px';
-        this.checkStop(start, 600)
-      }, 500);
+        this.au.stopAnimation();
+        this.au.resetPosition(this.player1.fighter, this.player2.fighter);
+        this.au.movePlayer(2, '0px');
+      }, 1300)
 
-      //play audio after hurt animation stops
       this.audio.play('punch');
 
-      //set battle stats
       this.battleStats(2);
+      this.hideBtn = true;
     }, 1550)
 
-    //stop attack animation
     setTimeout(() => {
-      this.checkStop(start, 1500);
+      this.au.stopAnimation();
     }, 1500)
 
-    setTimeout(() => {
-      this.hideBtn = true;
-      //document.getElementById('damage-2').textContent = '';
-      //document.getElementById('damage-1').textContent = '';
-    }, 1950)
   }
-
-  setImage(player, action, fighter, img) {
-    document.getElementById(player)['src'] = `/assets/${action}/${fighter}/${img}.png`;
-  }
-
-  //reset both player 1 and player 2 positions
-  reset() {
-
-    setTimeout(() => {
-      this.setImage('attack_p1', 'attacks', this.player1.fighter, '0');
-      this.setImage('attack_p2', 'attacks', this.player2.fighter, '0');
-    }, 300)
-
-  }
-
 
   battleStats(player) {
-
     //player 1 starts attacking ; player 2 starts attacking
     if (player == 1) {
       let fullHp = this.player2.hp;
@@ -358,14 +236,14 @@ export class AnimateActionsComponent implements OnInit {
     if (player === 1) {
       this.damage2 = ((currentHp / fullHp) * 100);
       damage = this.damage2;
-      fighter = this.player2.fighter;
+      fighter = this.player2;
       element = <HTMLElement>document.getElementsByClassName(`hp-bar-2`)[0];
       player = 2;
       this.changeHealthBarColor(currentHp, fullHp, element);
     } else {
       this.damage1 = ((currentHp / fullHp) * 100);
       damage = this.damage1;
-      fighter = this.player1.fighter;
+      fighter = this.player1;
       element = <HTMLElement>document.getElementsByClassName(`hp-bar-1`)[0];
       player = 1;
       this.changeHealthBarColor(currentHp, fullHp, element);
@@ -373,12 +251,19 @@ export class AnimateActionsComponent implements OnInit {
 
     element.style.width = `${damage}%`;
 
-    if (this.player2.hp < 0 || this.player1.hp < 0) {
-      this.finishBattle(player, this.player2.fighter);
+    if (this.player1.hp < 0) {
+      this.finishBattle(this.player1);
+      element.style.width = '0';
+      element.style.backgroundColor = 'white';
+      this.player1.hp = 0
+      this.hideBtn = false;
+    }
+
+    if (this.player2.hp < 0) {
+      this.finishBattle(this.player2);
       element.style.width = '0';
       element.style.backgroundColor = 'white';
       this.player2.hp = 0
-      this.player1.hp = 0
       this.hideBtn = false;
     }
 
@@ -397,23 +282,20 @@ export class AnimateActionsComponent implements OnInit {
 
   }
 
-  finishBattle(player, fighter) {
+  finishBattle(fighter) {
 
     setTimeout(() => {
-      this.animate('dying', 0, 14, 30, 1000, `attack_p${player}`, fighter);
-    }, 1000);
+      this.au.dying(fighter.player, fighter.fighter);
+    }, 2000)
+
 
     setTimeout(() => {
-      clearInterval(this.tID)
-    }, 1000);
-
-    setTimeout(() => {
-      const element = <HTMLElement>document.getElementsByClassName(`hp-bar-${player}`)[0];
+      this.au.stopAnimation();
+      const element = <HTMLElement>document.getElementsByClassName(`hp-bar-${fighter.player}`)[0];
       element.style.borderColor = 'transparent'
-      document.getElementById(`attack_p${player}`)['src'] = `/assets/dying/${fighter}/14.png`;
-      document.getElementById(`damage-${player}`).textContent = '';
+      document.getElementById(`attack_p${fighter.player}`)['src'] = `/assets/dying/${fighter.fighter}/14.png`;
       this.hideBtn = false;
-    }, 1100)
+    }, 2100)
 
   }
 

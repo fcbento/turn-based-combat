@@ -10,11 +10,11 @@ export class Characters2 {
             player: 0,
             ready: false,
             fighter: 1,
-            hp: 2156,
-            fullHp: 2156,
+            hp: 1000,
+            fullHp: 1000,
             strength: 0,
             minAtacck: 60,
-            maxAtacck: 150,
+            maxAtacck: 900,
             skills: [
                 {
                     name: 'Attack',
