@@ -10,6 +10,7 @@ export class AnimateUtils {
     }
 
     public idle() {
+        this.stopAnimation();
         this.animate('idle', 0, 11, 30, this.setFirstPosition(this.player.player), this.player.fighter);
     }
 
@@ -19,10 +20,12 @@ export class AnimateUtils {
     }
 
     hurt(player, fighter) {
+        this.stopAnimation();
         this.animate('hurt', 0, 11, 30, this.setFirstPosition(player), fighter);
     }
 
     dying(player, fighter) {
+        this.stopAnimation();
         this.animate('dying', 0, 14, 80, this.setFirstPosition(player), fighter);
     }
 
@@ -31,6 +34,7 @@ export class AnimateUtils {
     }
 
     walking() {
+        this.stopAnimation();
         this.animate('walking', 0, 17, 50, this.setFirstPosition(this.player.player), this.player.fighter);
     }
 
@@ -73,6 +77,7 @@ export class AnimateUtils {
     }
 
     public resetPosition(fighter1, fighter2) {
+        this.idle();
         document.getElementById('attack_p1')['src'] = `/assets/idle/${fighter1}/0.png`;
         document.getElementById('attack_p2')['src'] = `/assets/idle/${fighter2}/0.png`;
     }

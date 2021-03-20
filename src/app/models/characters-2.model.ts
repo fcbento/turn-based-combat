@@ -14,7 +14,7 @@ export class Characters2 {
             fullHp: 1000,
             strength: 0,
             minAtacck: 60,
-            maxAtacck: 900,
+            maxAtacck: 2,
             skills: [
                 {
                     name: 'Attack',
