@@ -10,8 +10,8 @@ export class Characters2 {
             player: 0,
             ready: false,
             fighter: 5,
-            hp: 2500,
-            fullHp: 2500,
+            hp: 1500,
+            fullHp: 1500,
             strength: 0,
             minAtacck: 60,
             maxAtacck: 2,
@@ -30,60 +30,60 @@ export class Characters2 {
                 },
             ]
         },
-        {
-            name: 'Dumb Knight',
-            portrait: 'boss_03',
-            selected: false,
-            player: 0,
-            ready: false,
-            fighter: 6,
-            hp: 3500,
-            fullHp: 3500,
-            strength: 0,
-            minAtacck: 60,
-            maxAtacck: 2,
-            skills: [
-                {
-                    name: 'Attack',
-                },
-                {
-                    name: 'The Struggle',
-                },
-                {
-                    name: 'Beacon',
-                },
-                {
-                    name: 'Hellrider',
-                },
-            ]
-        },
-        {
-            name: 'Smart Knight',
-            portrait: 'boss_02',
-            selected: false,
-            player: 0,
-            ready: false,
-            fighter: 7,
-            hp: 4500,
-            fullHp: 4500,
-            strength: 0,
-            minAtacck: 60,
-            maxAtacck: 2,
-            skills: [
-                {
-                    name: 'Attack',
-                },
-                {
-                    name: 'The Struggle',
-                },
-                {
-                    name: 'Beacon',
-                },
-                {
-                    name: 'Hellrider',
-                },
-            ]
-        },
+        // {
+        //     name: 'Dumb Knight',
+        //     portrait: 'boss_03',
+        //     selected: false,
+        //     player: 0,
+        //     ready: false,
+        //     fighter: 6,
+        //     hp: 3500,
+        //     fullHp: 3500,
+        //     strength: 0,
+        //     minAtacck: 60,
+        //     maxAtacck: 2,
+        //     skills: [
+        //         {
+        //             name: 'Attack',
+        //         },
+        //         {
+        //             name: 'The Struggle',
+        //         },
+        //         {
+        //             name: 'Beacon',
+        //         },
+        //         {
+        //             name: 'Hellrider',
+        //         },
+        //     ]
+        // },
+        // {
+        //     name: 'Smart Knight',
+        //     portrait: 'boss_02',
+        //     selected: false,
+        //     player: 0,
+        //     ready: false,
+        //     fighter: 7,
+        //     hp: 4500,
+        //     fullHp: 4500,
+        //     strength: 0,
+        //     minAtacck: 60,
+        //     maxAtacck: 2,
+        //     skills: [
+        //         {
+        //             name: 'Attack',
+        //         },
+        //         {
+        //             name: 'The Struggle',
+        //         },
+        //         {
+        //             name: 'Beacon',
+        //         },
+        //         {
+        //             name: 'Hellrider',
+        //         },
+        //     ]
+        // },
     ];
 
 }

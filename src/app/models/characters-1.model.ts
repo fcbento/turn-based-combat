@@ -100,37 +100,37 @@ export class Characters1 {
             ]
         },
 
-        {
-            name: 'Weird Wraith',
-            portrait: 'wraith_01',
-            selected: false,
-            player: 0,
-            ready: false,
-            fighter: 4,
-            hp: 1,
-            fullHp: 1,
-            strength: 0,
-            minAtacck: 950,
-            maxAtacck: 1000,
-            skills: [
-                {
-                    name: 'Attack',
-                    icon: 'pointy-sword',
-                },
-                {
-                    name: 'The Struggle',
-                    icon: 'sword-in-stone',
-                },
-                {
-                    name: 'Beacon',
-                    icon: 'swords-emblem',
-                },
-                {
-                    name: 'Hellrider',
-                    icon: 'sword-slice',
-                },
-            ]
-        }
+        // {
+        //     name: 'Weird Wraith',
+        //     portrait: 'wraith_01',
+        //     selected: false,
+        //     player: 0,
+        //     ready: false,
+        //     fighter: 4,
+        //     hp: 1,
+        //     fullHp: 1,
+        //     strength: 0,
+        //     minAtacck: 950,
+        //     maxAtacck: 1000,
+        //     skills: [
+        //         {
+        //             name: 'Attack',
+        //             icon: 'pointy-sword',
+        //         },
+        //         {
+        //             name: 'The Struggle',
+        //             icon: 'sword-in-stone',
+        //         },
+        //         {
+        //             name: 'Beacon',
+        //             icon: 'swords-emblem',
+        //         },
+        //         {
+        //             name: 'Hellrider',
+        //             icon: 'sword-slice',
+        //         },
+        //     ]
+        // }
     ];
 
 }
