@@ -5,6 +5,10 @@
   </a>
 </p>
 
+## Live Demo
+
+https://battle-ng.firebaseapp.com/
+
 ## Demo
 
 ![](battle4.gif)
