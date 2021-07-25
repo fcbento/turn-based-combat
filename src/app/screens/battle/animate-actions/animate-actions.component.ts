@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, HostListener, Input, OnInit } from '@angular/core';
+import { AfterViewChecked, Component, ElementRef, HostListener, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Character } from 'src/app/models/character.model';
 import { AudioService } from 'src/app/shared/audio.service';
 import { AnimateUtils } from './animate-actions.component.utils';
@@ -6,7 +6,8 @@ import { AnimateUtils } from './animate-actions.component.utils';
 @Component({
   selector: 'app-animate-actions',
   templateUrl: './animate-actions.component.html',
-  styleUrls: ['./animate-actions.component.scss']
+  styleUrls: ['./animate-actions.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class AnimateActionsComponent implements OnInit {
 
@@ -23,8 +24,12 @@ export class AnimateActionsComponent implements OnInit {
   realDamage2;
   displayMenu = false;
   au: AnimateUtils;
+  menuAttack: boolean = false;
+  menuSkills: boolean = false;
+  menuItem: boolean;
 
-  constructor(private audio: AudioService) {
+  public element: string;
+  constructor(private audio: AudioService, private elementRef: ElementRef) {
   }
 
   ngOnInit(): void {
@@ -34,7 +39,6 @@ export class AnimateActionsComponent implements OnInit {
 
     this.player1 = player1;
     this.player2 = player2;
-    console.log(this.player2)
 
     if (this.player.player == 1) {
       this.img = "attack_p1"
@@ -48,7 +52,7 @@ export class AnimateActionsComponent implements OnInit {
 
   attackBtn(player, skill) {
 
-    this.checkSkill(skill);
+    this.checkAttack();
 
     this.au.stopAnimation();
     this.au.walking(1, this.player1.fighter);
@@ -89,89 +93,73 @@ export class AnimateActionsComponent implements OnInit {
 
   }
 
-  handleSkillPercentage(skill) {
-    switch (skill) {
-      case 1:
-        return this.calculatePercentage(55, 20);
-      case 2:
-        return this.calculatePercentage(35, 50);
-      case 3:
-        return this.calculatePercentage(25, 90);
-      case 4:
-        return this.calculatePercentage(15, 190);
-    }
-  }
+  attackSkill(player, skillName) {
 
-  handleSkillAttack(skill) {
-    switch (skill) {
-      case 1:
-        return this.calculateAttack(1, 5);
-      case 2:
-        return this.calculateAttack(10, 20);
-      case 3:
-        return this.calculateAttack(20, 70);
-      case 4:
-        return this.calculateAttack(30, 95);
-    }
-  }
+    this.checkSkill();
+    this.hideBtn = false;
 
-  checkSkill(skill) {
-    this.player1.strength = this.calculateAttack(this.player1.minAtacck, this.player1.maxAtacck);
-    this.realDamage1 = this.player1.strength + (this.handleSkillAttack(skill) + this.handleSkillPercentage(skill))
-  }
+    this.skillAnimation(skillName);
 
-  checkBossSkill(skill) {
+    setTimeout(() => {
+      this.element = null;
+      this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = 'white';
+    }, 1500);
 
-    switch (skill) {
+    setTimeout(() => {
 
-      case 1:
-        this.player2.strength = this.calculateAttack(this.player2.minAtacck, this.player2.maxAtacck);
-        this.realDamage2 = this.player2.strength + (100 * 0.1)
+      if (player == 1) {
+        this.au.hurt(2, this.player2.fighter);
         setTimeout(() => {
-          //document.getElementById('damage-1').textContent = this.realDamage2;
-        }, 1200)
-        break;
+          this.au.stopAnimation();
+          this.au.resetPosition(this.player1.fighter, this.player2.fighter);
+          this.au.movePlayer(1, '0px');
+        }, 1300)
+      }
 
-      case 2:
-        this.player2.strength = this.calculateAttack(this.player2.minAtacck, this.player2.maxAtacck);
-        this.realDamage2 = this.player2.strength + (100 * 0.5)
-        setTimeout(() => {
-          //document.getElementById('damage-1').textContent = this.realDamage2;
-        }, 1200)
-        break;
+      this.audio.play('punch');
 
-      case 3:
-        this.player2.strength = this.calculateAttack(this.player2.minAtacck, this.player2.maxAtacck);
-        this.realDamage2 = this.player2.strength + (100 * 0.6)
-        setTimeout(() => {
-          //document.getElementById('damage-1').textContent = this.realDamage2;
-        }, 1200)
-        break;
+      this.battleStats(player);
+    }, 1550)
 
-      case 4:
-        this.player2.strength = this.calculateAttack(this.player2.minAtacck, this.player2.maxAtacck);
-        this.realDamage2 = this.player2.strength + (100 * 0.8)
-        setTimeout(() => {
-          // document.getElementById('damage-1').textContent = this.realDamage2;
-        }, 1200)
-        break;
+    setTimeout(() => {
+      this.au.stopAnimation();
+    }, 1500)
 
-    }
+    setTimeout(() => {
+      if (this.player2.hp > 0)
+        this.boosAttack();
+    }, 2000);
+
+
   }
 
-  calculateAttack(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
+  skillAnimation(skillName: string) {
+    this.elementRef.nativeElement.ownerDocument.body.style.backgroundColor = 'black';
+    this.element = `<img src="assets/skills/${skillName}.png" class="img"/>`;
   }
 
-  calculatePercentage(min, max) {
-    let random = Math.floor(Math.random() * (max - min + 1) + min);
-    let result = (random / 100) * 100;
-    return result;
+  checkAttack() {
+    this.player1.strength = this.player1.minAtacck;
+    this.realDamage1 = this.player1.strength;
+  }
+
+  checkSkill() {
+    this.player1.strength = this.player1.minAtacck;
+    this.realDamage1 = this.player1.strength;
+  }
+
+  checkBossSkill() {
+
+    this.player2.strength = this.player2.minAtacck;
+    this.realDamage2 = this.player2.strength + (100 * 0.1)
+    setTimeout(() => {
+      //document.getElementById('damage-1').textContent = this.realDamage2;
+    }, 1200)
   }
 
   boosAttack() {
 
-    this.checkBossSkill(2);
+    this.checkBossSkill();
     this.au.stopAnimation();
     this.au.walking(2, this.player2.fighter);
     this.hideBtn = false;
@@ -196,31 +184,38 @@ export class AnimateActionsComponent implements OnInit {
       this.audio.play('punch');
 
       this.battleStats(2);
-      this.hideBtn = true;
     }, 1550)
 
     setTimeout(() => {
       this.au.stopAnimation();
     }, 1500)
 
+    setTimeout(() => {
+      this.hideBtn = true;
+      this.menuAttack = false;
+      this.menuSkills = false;
+    }, 3500)
+
   }
 
   battleStats(player) {
-    //player 1 starts attacking ; player 2 starts attacking
-    if (player == 1) {
-      let fullHp = this.player2.hp;
-      this.player2.hp = this.player2.hp - this.realDamage1;
-      this.calculatePlayerHp(player, this.player2.fullHp, this.player2.hp);
-      document.getElementById('health-2').textContent = this.player2.hp.toString() + '/' + this.player2.fullHp
 
-    } else {
+    if (player == 1)
+      this.playerOneStats();
+    else
+      this.playerTwoStats();
+  }
 
-      let fullHp = this.player1.hp;
-      this.player1.hp = this.player1.hp - this.realDamage2;
-      this.calculatePlayerHp(player, this.player1.fullHp, this.player1.hp);
-      document.getElementById('health-1').textContent = this.player1.hp.toString() + '/' + this.player1.fullHp
-    }
+  playerOneStats() {
+    this.player2.hp = this.player2.hp - this.realDamage1;
+    this.calculatePlayerHp(1, this.player2.fullHp, this.player2.hp);
+    document.getElementById('health-2').textContent = this.player2.hp.toString() + '/' + this.player2.fullHp;
+  }
 
+  playerTwoStats() {
+    this.player1.hp = this.player1.hp - this.realDamage2;
+    this.calculatePlayerHp(2, this.player1.fullHp, this.player1.hp);
+    document.getElementById('health-1').textContent = this.player1.hp.toString() + '/' + this.player1.fullHp;
   }
 
   //calculate damage based on strength and hp properties
@@ -228,20 +223,15 @@ export class AnimateActionsComponent implements OnInit {
   calculatePlayerHp(player, fullHp, currentHp) {
 
     let damage: any;
-    let fighter: any;
     let element: any;
 
     if (player === 1) {
-      this.damage2 = ((currentHp / fullHp) * 100);
-      damage = this.damage2;
-      fighter = this.player2;
+      damage = ((currentHp / fullHp) * 100);
       element = <HTMLElement>document.getElementsByClassName(`hp-bar-2`)[0];
       player = 2;
       this.changeHealthBarColor(currentHp, fullHp, element);
     } else {
-      this.damage1 = ((currentHp / fullHp) * 100);
-      damage = this.damage1;
-      fighter = this.player1;
+      damage = ((currentHp / fullHp) * 100);
       element = <HTMLElement>document.getElementsByClassName(`hp-bar-1`)[0];
       player = 1;
       this.changeHealthBarColor(currentHp, fullHp, element);
@@ -249,28 +239,22 @@ export class AnimateActionsComponent implements OnInit {
 
     element.style.width = `${damage}%`;
 
-    if (this.player1.hp < 0) {
-      this.finishBattle(this.player1);
+    this.prepareToFinish(player, element)
+  }
+
+  prepareToFinish(player, element) {
+    if (this.player1.hp < 0 || this.player2.hp < 0) {
+      this.finishBattle(player === 1 ? this.player1 : this.player2);
       element.style.width = '0';
       element.style.backgroundColor = 'white';
-      this.player1.hp = 0
+      player === 1 ? this.player1.hp = 0 : this.player2.hp = 0;
       this.hideBtn = false;
     }
-
-    if (this.player2.hp < 0) {
-      this.finishBattle(this.player2);
-      element.style.width = '0';
-      element.style.backgroundColor = 'white';
-      this.player2.hp = 0
-      this.hideBtn = false;
-    }
-
   }
 
   changeHealthBarColor(currentHp, fullHp, element) {
-    const x = fullHp / 2;
 
-    if (currentHp < x) {
+    if (currentHp < (fullHp / 2)) {
       element.style.borderColor = 'orange';
     }
 
@@ -301,7 +285,24 @@ export class AnimateActionsComponent implements OnInit {
     this.displayMenu = !this.displayMenu;
   }
 
-}
+  displayMenuAttack() {
+    this.menuAttack = !this.menuAttack;
+    this.menuSkills = false;
+    this.menuItem = false;
+  }
 
+  displayMenuSkill() {
+    this.menuSkills = !this.menuSkills;
+    this.menuAttack = false;
+    this.menuItem = false;
+  }
+
+  displayMenuItem() {
+    this.menuItem = !this.menuItem;
+    this.menuSkills = false;
+    this.menuAttack = false;
+  }
+
+}
 
 

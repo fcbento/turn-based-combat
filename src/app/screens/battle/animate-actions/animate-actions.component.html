@@ -1,5 +1,5 @@
 <div class="row center-xs">
-    <div class="col-lg-12">
+    <div class="col-lg-8">
 
         <div class="full-hp-bar">
             <div class="hp-bar-{{player.player}}"></div>
@@ -22,42 +22,45 @@
 
         <br>
 
-        <div class="row" *ngIf="player.player === 1 && !displayMenu">
-            <div class="col">
-                <i (click)="openMenu()" class="open-menu">
-                    <img src="assets/icons/backpack.png" alt="" width="80px">
-                </i>
-            </div>
-        </div>
+        <div *ngIf="player.player === 1 && hideBtn" id="btn-1" class="btn-1">
+            <div class="menu">
+                <section>
 
-        <div class="row" *ngIf="player.player === 1 && displayMenu && hideBtn" id="btn-1">
-            <div class="col-1 menu" [style.width]="displayMenu ? '400px' : '0' "
-                style="background-color: green; margin-left: -40px;">
-                <ul>
-                    <li>
-                        Actions
-                        <div class="row" style="margin-left: 20px;">
-                            <div class="col-lg-6" *ngFor="let skill of player.skills; let i = index">
-                                <img src="assets/icons/{{skill.icon}}.png" alt="" width="30px" (click)="attackBtn(player.player, i + 1)"> - <span>{{skill.name}}</span>
-                            </div>
+                    <div class="menu-atack">
+                        <span (click)="displayMenuAttack()">Attack</span> 
+                        <div class="sub-menu" *ngIf="menuAttack">
+                            <p *ngFor="let attack of player.attacks; let i = index" (click)="attackBtn(player.player, i + 1)">{{attack.name}}</p>
                         </div>
-                    </li>
-                    <li>
-                        Abilities
-                    </li>
-                    <li>
-                        Burst
-                    </li>
-                    <li>
-                        Items
-                    </li>
-                    <li>
+                    </div>
+
+                    <div class="menu-atack">
+                        <span (click)="displayMenuSkill()">Skills</span> 
+                        <div class="sub-menu" *ngIf="menuSkills">
+                            <p *ngFor="let skill of player.skills; let i = index" (click)="attackSkill(player.player, skill.name)">{{skill.nameDisplay}}</p>
+                        </div>
+                    </div>
+
+                    <div class="menu-atack">
+                        <span (click)="displayMenuItem()">Item</span> 
+                        <div class="sub-menu" *ngIf="menuItem">
+                            <p *ngFor="let item of player.items; let i = index" (click)="attackBtn(player.player, i + 1)">{{item.name}}</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        Defend
+                    </div>
+
+                    <div>
                         Flee
-                    </li>
-                </ul>
+                    </div>
+                    
+                </section>
             </div>
         </div>
 
-        <!-- <button id="btn-2" (click)="attackBtn(player.player)" *ngIf="player.player === 2">Attack</button> -->
     </div>
 </div>
+
+
+<div class="skill" [innerHTML]="element" [ngStyle]="'10%'"></div>

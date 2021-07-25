@@ -28,7 +28,9 @@ export class Characters2 {
                 {
                     name: 'Hellrider',
                 },
-            ]
+            ],
+            items: [],
+            attacks: []
         },
         // {
         //     name: 'Dumb Knight',

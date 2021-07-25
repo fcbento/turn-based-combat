@@ -11,5 +11,8 @@ export class Character {
     strength: number;
     minAtacck: number;
     maxAtacck: number;
+
     skills: Array<any>;
+    attacks: Array<any>;
+    items: Array<any>;
 }

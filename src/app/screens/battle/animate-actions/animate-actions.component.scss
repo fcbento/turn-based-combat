@@ -1,12 +1,13 @@
 .char-portrait-1{
-    width: 50%;
+    width: 40%;
+    margin-top: 35%;
 }
 
 .char-portrait-2{
-    width: 75%;
+    width: 45%;
     -webkit-transform: scaleX(-1);
     transform: scaleX(-1);
-    margin-top: -70px;
+    margin-top: 35%;
 }
 
 .hp-bar-1{
@@ -22,19 +23,18 @@
 }
 
 .health-bar{
-    font-size: 30px;
-    color: rgb(0, 0, 0);
+    font-size: 15px;
+    color: rgb(255, 255, 255);
     font-weight: bold;
 }
 
 
-    button{
-        width: 100%;
-        cursor: pointer; 
-        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
-        text-align: left;       
-    }
-
+button{
+    width: 100%;
+    cursor: pointer; 
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    text-align: left;       
+}
 
 .damage{
     color: orange;
@@ -43,12 +43,62 @@
 }
 
 .menu {
-    width: 0;
     text-align: left;
-    height: 240px;
-    padding: 20px;
+    border: 2px solid black;
+    background-color: transparent;
+    border-radius: 11px;
+    cursor: pointer;
+    section {
+        div{
+            padding: 8px;
+            border-bottom: 1px solid black;
+        }
+    }
+}
+
+.menu-atack{
+    height: 20px;
 }
 
 .open-menu{
     cursor: pointer;
+}
+
+.btn-1{
+    padding: 2px;
+    width: 250px;
+    position: absolute;
+    top: 40%;
+    left: 9%;
+    color: white;
+}
+
+.sub-menu{
+    width: 90%;
+    background-color: white;
+    position: relative;
+    bottom: 85px;
+    left: 55%;
+    border: 2px solid black;
+    cursor: pointer;
+    font-size: 0.6rem;
+    color: black;
+
+    p {
+        padding: 5px;
+        &:hover{
+            background-color: black;
+            color: white;
+        }
+    }
+}
+
+.skill{
+    top: 30%; 
+    position: absolute; 
+    left: 36%;
+    
+    .img{
+        width: 30% !important;
+    }
 }
